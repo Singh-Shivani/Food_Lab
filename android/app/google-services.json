@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "750865612952",
+    "firebase_url": "https://food-lab-f0f2d.firebaseio.com",
+    "project_id": "food-lab-f0f2d",
+    "storage_bucket": "food-lab-f0f2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750865612952:android:1c0af915ccc09c84c290ed",
+        "android_client_info": {
+          "package_name": "singhshivani.foodlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750865612952-klf77dghp7j6sknjarti1ketifmn7os1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYAkTwksi3foJ0a6J79J2KZ8wk5Hns0jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750865612952-klf77dghp7j6sknjarti1ketifmn7os1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
