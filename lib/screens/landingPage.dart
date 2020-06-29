@@ -12,9 +12,7 @@ class LandingPage extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Color.fromRGBO(255, 138, 120, 1),
-//              Color.fromRGBO(255, 127, 119, 1),
               Color.fromRGBO(255, 114, 117, 1),
-//              Color.fromRGBO(255, 91, 114, 1),
               Color.fromRGBO(255, 63, 111, 1),
             ],
             begin: Alignment.topCenter,
@@ -57,7 +55,7 @@ class LandingPage extends StatelessWidget {
                     ));
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(30),

@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlab/screens/signUp.dart';
+import 'package:foodlab/screens/login.dart';
 
-enum AuthMode { SignUp, Login }
-
-class LoginPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +28,7 @@ class LoginPage extends StatelessWidget {
                 child: Text(
                   'FoodLab',
                   style: TextStyle(
-                    fontSize: 60,
+                    fontSize: 45,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontFamily: 'MuseoModerno',
@@ -42,12 +39,49 @@ class LoginPage extends StatelessWidget {
                 'Think. Click. Pick',
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
-                  fontSize: 17,
+                  fontSize: 15,
                   color: Color.fromRGBO(252, 188, 126, 1),
                 ),
               ),
               SizedBox(
-                height: 140,
+                height: 60,
+              ),
+              Text(
+                'Sign Up',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  cursorColor: Color.fromRGBO(255, 63, 111, 1),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'User name',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(255, 63, 111, 1),
+                    ),
+                    icon: Icon(
+                      Icons.account_circle,
+                      color: Color.fromRGBO(255, 63, 111, 1),
+                    ),
+                  ),
+                ),
+              ), //User Name TEXT FIELD
+              SizedBox(
+                height: 20,
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40),
@@ -102,11 +136,39 @@ class LoginPage extends StatelessWidget {
                 ),
               ), //PASSWORD TEXT FIELD
               SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: TextField(
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  cursorColor: Color.fromRGBO(255, 63, 111, 1),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Rewrite Password',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(255, 63, 111, 1),
+                    ),
+                    icon: Icon(
+                      Icons.lock,
+                      color: Color.fromRGBO(255, 63, 111, 1),
+                    ),
+                  ),
+                ),
+              ), // RE-PASSWORD TEXT FIELD
+              SizedBox(
                 height: 50,
               ),
               GestureDetector(
                 onTap: () {
-                  //TODO:1 LOGIN Succesfully then dashboard page
+                  //TODO:2 Signup Succesfully then dashboard page
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
@@ -115,22 +177,22 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                    "Log In",
+                    "Sign Up",
                     style: TextStyle(
                       fontSize: 20,
                       color: Color.fromRGBO(255, 63, 111, 1),
                     ),
                   ),
                 ),
-              ), //LOGIN BUTTON
+              ),
               SizedBox(
                 height: 60,
-              ),
+              ), //LOGIN BUTTON
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Not a registered user?',
+                    'Already a registered user?',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -144,12 +206,12 @@ class LoginPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => SignUpPage(),
+                            builder: (BuildContext context) => LoginPage(),
                           ));
                     },
                     child: Container(
                       child: Text(
-                        'Sign Up here',
+                        'Log In here',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -158,6 +220,9 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 30,
               ),
             ],
           ),

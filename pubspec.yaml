@@ -52,14 +52,10 @@ flutter:
        fonts:
          - asset: fonts/MuseoModerno-Light.ttf
 
-     - family: PlayfairDisplay
-       fonts:
-         - asset: fonts/PlayfairDisplay-Regular.ttf
-
-     - family: Poppins
-       fonts:
-           - asset: fonts/Poppins-Regular.ttf
-
      - family: Raleway
        fonts:
            - asset: fonts/Raleway-Regular.ttf
+
+     - family: Montserrat
+       fonts:
+             - asset: fonts/Montserrat-Regular.ttf

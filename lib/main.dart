@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Food Lab',
       theme: ThemeData(
-        fontFamily: 'Raleway',
+        fontFamily: 'Montserrat',
+        primaryColor: Color.fromRGBO(255, 63, 111, 1),
       ),
       home: Scaffold(
         body: LandingPage(),
