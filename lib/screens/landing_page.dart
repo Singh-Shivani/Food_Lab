@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodlab/screens/login.dart';
+import 'package:foodlab/notifier/auth_notifier.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -23,9 +24,6 @@ class LandingPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-//            Image.asset(
-//              'images/icons8-paella-96.png',
-//            ),
             Text(
               'FoodLab',
               style: TextStyle(

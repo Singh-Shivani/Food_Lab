@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'screens/landingPage.dart';
+import 'package:provider/provider.dart';
+import 'screens/landing_page.dart';
+import 'notifier/auth_notifier.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => AuthNotifier(),
+      )
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,8 +25,13 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromRGBO(255, 63, 111, 1),
       ),
       home: Scaffold(
-        body: LandingPage(),
+        body: Consumer<AuthNotifier>(
+          builder: (context, notifier, child) {
+            return LandingPage();
+          },
+        ),
       ),
     );
   }
 }
+//notifier.user != null ? LoginPage() :

@@ -50,7 +50,7 @@ class SignUpPage extends StatelessWidget {
                 'Sign Up',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 40,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -222,7 +222,7 @@ class SignUpPage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 40,
               ),
             ],
           ),
