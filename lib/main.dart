@@ -34,4 +34,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//notifier.user != null ? LoginPage() :

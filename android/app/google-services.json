@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "750865612952",
-    "firebase_url": "https://food-lab-f0f2d.firebaseio.com",
-    "project_id": "food-lab-f0f2d",
-    "storage_bucket": "food-lab-f0f2d.appspot.com"
+    "project_number": "34283234483",
+    "firebase_url": "https://foodlab-d25f0.firebaseio.com",
+    "project_id": "foodlab-d25f0",
+    "storage_bucket": "foodlab-d25f0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:750865612952:android:1c0af915ccc09c84c290ed",
+        "mobilesdk_app_id": "1:34283234483:android:9e5b89e0ff9e0fb0497cc6",
         "android_client_info": {
           "package_name": "singhshivani.foodlab"
         }
       },
       "oauth_client": [
         {
-          "client_id": "750865612952-klf77dghp7j6sknjarti1ketifmn7os1.apps.googleusercontent.com",
+          "client_id": "34283234483-04pv3hgl1o58kheg58a9reto88vh1r37.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYAkTwksi3foJ0a6J79J2KZ8wk5Hns0jo"
+          "current_key": "AIzaSyCMqzlAT1EdLGZflBH_pcGgkwfHy-okstU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "750865612952-klf77dghp7j6sknjarti1ketifmn7os1.apps.googleusercontent.com",
+              "client_id": "34283234483-04pv3hgl1o58kheg58a9reto88vh1r37.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

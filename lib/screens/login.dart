@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlab/screens/sign_up.dart';
+import 'package:foodlab/api/food_api.dart';
+import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/screens/landing_page.dart';
 import 'package:foodlab/model/user.dart';
+import 'package:provider/provider.dart';
 
 enum AuthMode { SignUp, Login }
 
@@ -17,8 +19,384 @@ class _LoginPageState extends State<LoginPage> {
   AuthMode _authMode = AuthMode.Login;
 
   User _user = User();
+
+  @override
+  void initState() {
+    AuthNotifier authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
+    initializeCurrentUser(authNotifier);
+    super.initState();
+  }
+
+  void _submitForm() {
+    if (!_formkey.currentState.validate()) {
+      return;
+    }
+
+    _formkey.currentState.save();
+
+    AuthNotifier authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
+
+    if (_authMode == AuthMode.Login) {
+      login(_user, authNotifier);
+    } else {
+      signUp(_user, authNotifier);
+    }
+  }
+
+  Widget _buildLoginForm() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 120,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "Email is required";
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _user.email = value;
+            },
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Email',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.email,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //EMAIL TEXT FIELD
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            obscureText: true,
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "password is required";
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _user.password = value;
+            },
+            keyboardType: TextInputType.visiblePassword,
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Password',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.lock,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //PASSWORD TEXT FIELD
+        SizedBox(
+          height: 50,
+        ),
+        GestureDetector(
+          onTap: () {
+            _submitForm();
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Text(
+              "Log In",
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //LOGIN BUTTON
+        SizedBox(
+          height: 60,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Not a registered user?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _authMode = AuthMode.SignUp;
+                });
+              },
+              child: Container(
+                child: Text(
+                  'Sign Up here',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSignUPForm() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 60,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "User name is required";
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _user.displayName = value;
+            },
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'User name',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.account_circle,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //User Name TEXT FIELD
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "Email is required";
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _user.email = value;
+            },
+            keyboardType: TextInputType.emailAddress,
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Email',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.email,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //EMAIL TEXT FIELD
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            obscureText: true,
+            controller: _passwordController,
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "Password is required";
+              }
+              return null;
+            },
+            onSaved: (String value) {
+              _user.password = value;
+            },
+            keyboardType: TextInputType.visiblePassword,
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Password',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.lock,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), //PASSWORD TEXT FIELD
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: TextFormField(
+            validator: (String value) {
+              if (value.isEmpty) {
+                return "Re write password is required";
+              }
+              if (_passwordController.text != value) {
+                return "Write Correct Password";
+              }
+              return null;
+            },
+            obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
+            cursorColor: Color.fromRGBO(255, 63, 111, 1),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Rewrite Password',
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+              icon: Icon(
+                Icons.lock,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ), // RE-PASSWORD TEXT FIELD
+        SizedBox(
+          height: 50,
+        ),
+        GestureDetector(
+          onTap: () {
+            _submitForm();
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Text(
+              "Sign Up",
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(255, 63, 111, 1),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 60,
+        ), //LOGIN BUTTON
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Already a registered user?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _authMode = AuthMode.Login;
+                });
+              },
+              child: Container(
+                child: Text(
+                  'Log In here',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 40,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('building log in');
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -36,6 +414,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Form(
           key: _formkey,
+          autovalidate: true,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -69,119 +448,9 @@ class _LoginPageState extends State<LoginPage> {
                     color: Color.fromRGBO(252, 188, 126, 1),
                   ),
                 ),
-                SizedBox(
-                  height: 140,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Color.fromRGBO(255, 63, 111, 1),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email',
-                      hintStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(255, 63, 111, 1),
-                      ),
-                      icon: Icon(
-                        Icons.email,
-                        color: Color.fromRGBO(255, 63, 111, 1),
-                      ),
-                    ),
-                  ),
-                ), //EMAIL TEXT FIELD
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: TextField(
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    cursorColor: Color.fromRGBO(255, 63, 111, 1),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Password',
-                      hintStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(255, 63, 111, 1),
-                      ),
-                      icon: Icon(
-                        Icons.lock,
-                        color: Color.fromRGBO(255, 63, 111, 1),
-                      ),
-                    ),
-                  ),
-                ), //PASSWORD TEXT FIELD
-                SizedBox(
-                  height: 50,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    //TODO:1 LOGIN Succesfully then dashboard page
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      "Log In",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromRGBO(255, 63, 111, 1),
-                      ),
-                    ),
-                  ),
-                ), //LOGIN BUTTON
-                SizedBox(
-                  height: 60,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Not a registered user?',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => SignUpPage(),
-                            ));
-                      },
-                      child: Container(
-                        child: Text(
-                          'Sign Up here',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                _authMode == AuthMode.Login
+                    ? _buildLoginForm()
+                    : _buildSignUPForm()
               ],
             ),
           ),
