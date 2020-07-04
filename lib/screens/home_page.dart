@@ -13,16 +13,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   User _user = User();
 
-//  @override
-//  void initState() {
-//    super.initState();
-//    AuthNotifier authNotifier =
-//    Provider.of<AuthNotifier>(context,);
-//
-//  }
+  @override
+  void initState() {
+    super.initState();
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+  }
+
   signoutUser() {
-    AuthNotifier authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
     if (authNotifier.user != null) {
       signOut(authNotifier);
       Navigator.pop(context);

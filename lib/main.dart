@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/landing_page.dart';
 import 'notifier/auth_notifier.dart';
+import 'screens/login_signup_page.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -25,11 +26,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromRGBO(255, 63, 111, 1),
       ),
       home: Scaffold(
-        body: Consumer<AuthNotifier>(
-          builder: (context, notifier, child) {
-            return LandingPage();
-          },
-        ),
+        body: LandingPage(),
       ),
     );
   }

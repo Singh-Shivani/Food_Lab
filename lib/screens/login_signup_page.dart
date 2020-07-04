@@ -19,14 +19,26 @@ class _LoginPageState extends State<LoginPage> {
   AuthMode _authMode = AuthMode.Login;
 
   User _user = User();
+  bool isSignedIn = false;
 
   @override
   void initState() {
-    AuthNotifier authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
     initializeCurrentUser(authNotifier);
     super.initState();
   }
+
+//  checkUserState() {
+//    if (_user != null) {
+//      setState(() {
+//        isSignedIn = true;
+//      });
+//    } else {
+//      setState(() {
+//        isSignedIn = false;
+//      });
+//    }
+//  }
 
   void _submitForm() {
     if (!_formkey.currentState.validate()) {
@@ -35,13 +47,25 @@ class _LoginPageState extends State<LoginPage> {
 
     _formkey.currentState.save();
 
-    AuthNotifier authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
 
     if (_authMode == AuthMode.Login) {
       login(_user, authNotifier);
     } else {
       signUp(_user, authNotifier);
+    }
+  }
+
+  void _signOutUser() {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+
+    if (isSignedIn == true) {
+      if (_user != null) {
+        signOut(authNotifier);
+        Navigator.pop(context);
+      }
+    } else {
+      print('no user is signed In');
     }
   }
 
@@ -394,68 +418,89 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    print('building log in');
+  Widget _buildHomeScreen() {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(255, 138, 120, 1),
-              Color.fromRGBO(255, 114, 117, 1),
-              Color.fromRGBO(255, 63, 111, 1),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Form(
-          key: _formkey,
-          autovalidate: true,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => LandingPage(),
-                        ));
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(top: 40),
-                    child: Text(
-                      'FoodLab',
-                      style: TextStyle(
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: 'MuseoModerno',
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Think. Click. Pick',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 17,
-                    color: Color.fromRGBO(252, 188, 126, 1),
-                  ),
-                ),
-                _authMode == AuthMode.Login
-                    ? _buildLoginForm()
-                    : _buildSignUPForm()
-              ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                _signOutUser();
+              },
+              child: Text('Sign Out'),
             ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_user != null) {
+      return _buildHomeScreen();
+    } else {
+      return Scaffold(
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 138, 120, 1),
+                Color.fromRGBO(255, 114, 117, 1),
+                Color.fromRGBO(255, 63, 111, 1),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Form(
+            key: _formkey,
+            autovalidate: true,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => LandingPage(),
+                          ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Text(
+                        'FoodLab',
+                        style: TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'MuseoModerno',
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Think. Click. Pick',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 17,
+                      color: Color.fromRGBO(252, 188, 126, 1),
+                    ),
+                  ),
+                  _authMode == AuthMode.Login
+                      ? _buildLoginForm()
+                      : _buildSignUPForm()
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }
