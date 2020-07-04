@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodlab/screens/login.dart';
+import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:foodlab/screens/home_page.dart';

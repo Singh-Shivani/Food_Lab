@@ -19,7 +19,7 @@ login(User user, AuthNotifier authNotifier) async {
 signUp(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
-          email: user.email, password: user.password)
+          email: user.email.trim(), password: user.password)
       .catchError((error) => print(error));
 
   if (authResult != null) {
@@ -43,6 +43,7 @@ signOut(AuthNotifier authNotifier) async {
   await FirebaseAuth.instance.signOut();
 
   authNotifier.setUser(null);
+  print('log out');
 }
 
 initializeCurrentUser(AuthNotifier authNotifier) async {
