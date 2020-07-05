@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
+import 'package:foodlab/screens/home_page.dart';
+import 'package:foodlab/screens/login_signup_page.dart';
 
-login(User user, AuthNotifier authNotifier) async {
+login(User user, AuthNotifier authNotifier, BuildContext context) async {
   AuthResult authResult = await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: user.email, password: user.password)
       .catchError((error) => print(error));
@@ -12,11 +16,17 @@ login(User user, AuthNotifier authNotifier) async {
     if (firebaseUser != null) {
       print("Log In: $firebaseUser");
       authNotifier.setUser(firebaseUser);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) {
+          return HomePage();
+        }),
+      );
     }
   }
 }
 
-signUp(User user, AuthNotifier authNotifier) async {
+signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
           email: user.email.trim(), password: user.password)
@@ -35,20 +45,38 @@ signUp(User user, AuthNotifier authNotifier) async {
 
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
       authNotifier.setUser(currentUser);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) {
+          return HomePage();
+        }),
+      );
     }
   }
 }
 
-signOut(AuthNotifier authNotifier) async {
+signOut(AuthNotifier authNotifier, BuildContext context) async {
   await FirebaseAuth.instance.signOut();
 
   authNotifier.setUser(null);
   print('log out');
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (BuildContext context) {
+      return LoginPage();
+    }),
+  );
 }
 
-initializeCurrentUser(AuthNotifier authNotifier) async {
+initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
   FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
   if (firebaseUser != null) {
     authNotifier.setUser(firebaseUser);
   }
+//  Navigator.push(
+//    context,
+//    MaterialPageRoute(builder: (BuildContext context) {
+//      return HomePage();
+//    }),
+//  );
 }
