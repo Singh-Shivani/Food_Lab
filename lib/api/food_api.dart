@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:foodlab/model/food.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
+import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/home_page.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 
+//USER PART
 login(User user, AuthNotifier authNotifier, BuildContext context) async {
   AuthResult authResult = await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: user.email, password: user.password)
@@ -73,10 +77,20 @@ initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
   if (firebaseUser != null) {
     authNotifier.setUser(firebaseUser);
   }
-//  Navigator.push(
-//    context,
-//    MaterialPageRoute(builder: (BuildContext context) {
-//      return HomePage();
-//    }),
-//  );
+}
+
+//FOOD PART
+getFoods(FoodNotifier foodNotifier) async {
+  QuerySnapshot snapshot =
+      await Firestore.instance.collection('foods').getDocuments();
+
+  List<Food> _foodList = [];
+
+  snapshot.documents.forEach((document) {
+    Food food = Food.fromMap(document.data);
+    _foodList.add(food);
+  });
+
+  foodNotifier.foodList = _foodList;
+  print(_foodList);
 }
