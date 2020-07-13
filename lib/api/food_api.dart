@@ -80,17 +80,17 @@ initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
 }
 
 //FOOD PART
-getFoods(FoodNotifier foodNotifier) async {
-  QuerySnapshot snapshot =
-      await Firestore.instance.collection('foods').getDocuments();
-
-  List<Food> _foodList = [];
-
-  snapshot.documents.forEach((document) {
-    Food food = Food.fromMap(document.data);
-    _foodList.add(food);
-  });
-
-  foodNotifier.foodList = _foodList;
-  print(_foodList);
-}
+//getFoods(FoodNotifier foodNotifier) async {
+//  QuerySnapshot snapshot =
+//      await Firestore.instance.collection('foods').getDocuments();
+//
+//  List<Food> _foodList = [];
+//
+//  snapshot.documents.forEach((document) {
+//    Food food = Food.fromMap(document.data);
+//    _foodList.add(food);
+//  });
+//
+//  foodNotifier.foodList = _foodList;
+//  print(_foodList);
+//}

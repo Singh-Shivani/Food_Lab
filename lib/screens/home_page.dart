@@ -22,44 +22,136 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
-    FoodNotifier foodNotifier =
-        Provider.of<FoodNotifier>(context, listen: false);
-    getFoods(foodNotifier);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    FoodNotifier foodNotifier = Provider.of<FoodNotifier>(context);
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
     print('building home');
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          authNotifier.user != null
-              ? 'Hello ' + authNotifier.user.displayName
-              : 'Home Page',
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: SafeArea(
+                child: authNotifier.user != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Hey, ',
+                                style: TextStyle(fontSize: 17),
+                              ),
+                              Text(
+                                authNotifier.user.displayName + '!',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(255, 63, 111, 1),
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ],
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                signOutUser();
+                              },
+                              child: Text('Sign Out'))
+                        ],
+                      )
+                    : Text(
+                        'Welcome',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Color.fromRGBO(255, 63, 111, 1),
+                        ),
+                      ),
+              ),
+            ),
+            SizedBox(
+              height: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Explore',
+                style: TextStyle(
+                  color: Color.fromRGBO(255, 63, 111, 1),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            StreamBuilder(
+                stream: Firestore.instance.collection('foods').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Column(
+                      children: <Widget>[
+                        Text('loading...'),
+                        CircularProgressIndicator(
+                          backgroundColor: Color.fromRGBO(255, 63, 111, 1),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Center(
+                                child: Padding(
+                                  child: ClipRRect(
+                                    child: Image.network(
+                                        snapshot.data.documents[index]['img']),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.documents[index]['name'],
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      snapshot.data.documents[index]['caption'],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                }),
+          ],
         ),
-      ),
-      body: ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Image.network(
-              foodNotifier.foodList[0].img,
-              width: 200,
-            ),
-            title: Text(
-              foodNotifier.foodList[0].name,
-              style: TextStyle(color: Colors.black, fontSize: 23),
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(height: 20);
-        },
-        itemCount: foodNotifier.foodList.length,
       ),
     );
   }
@@ -67,3 +159,24 @@ class _HomePageState extends State<HomePage> {
 //Text(
 //snapshot.data.documents[0]['name'],
 //),
+// Expanded(
+//            child: ListView.separated(
+//
+//              itemBuilder: (BuildContext context, int index) {
+//                return ListTile(
+////                  leading: Image.network(
+////                    foodNotifier.foodList[index].img,
+////                    width: 200,
+////                  ),
+//                  title: Text(
+//                    foodNotifier.foodList[index].name,
+//                    style: TextStyle(color: Colors.black, fontSize: 23),
+//                  ),
+//                );
+//              },
+//              separatorBuilder: (BuildContext context, int index) {
+//                return SizedBox(height: 20);
+//              },
+//              itemCount: foodNotifier.foodList.length,
+//            ),
+//          ),
