@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,8 +8,8 @@ import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
-import 'package:foodlab/screens/home_page.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
+import 'package:foodlab/screens/navigation_bar.dart';
 
 //USER PART
 login(User user, AuthNotifier authNotifier, BuildContext context) async {
@@ -23,7 +25,7 @@ login(User user, AuthNotifier authNotifier, BuildContext context) async {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return HomePage();
+          return NavigationBarPage();
         }),
       );
     }
@@ -49,10 +51,11 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
 
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
       authNotifier.setUser(currentUser);
+//      Firestore.instance.collection('users').document(user.uid)
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return HomePage();
+          return NavigationBarPage();
         }),
       );
     }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
+import 'package:foodlab/screens/navigation_bar.dart';
 import 'package:provider/provider.dart';
-
-import 'home_page.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -69,7 +68,7 @@ class _LandingPageState extends State<LandingPage> {
                   builder: (BuildContext context) {
                     return (authNotifier.user == null)
                         ? LoginPage()
-                        : HomePage();
+                        : NavigationBarPage();
                   },
                 ));
               },

@@ -89,11 +89,16 @@ class _HomePageState extends State<HomePage> {
                   if (!snapshot.hasData) {
                     return Column(
                       children: <Widget>[
-                        Text('loading...'),
+                        Text(
+                          '\nloading...\n',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 63, 111, 1),
+                          ),
+                        ),
                         CircularProgressIndicator(
                           backgroundColor: Color.fromRGBO(255, 63, 111, 1),
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Color.fromRGBO(255, 138, 120, 1)),
                         ),
                       ],
                     );
@@ -156,27 +161,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-//Text(
-//snapshot.data.documents[0]['name'],
-//),
-// Expanded(
-//            child: ListView.separated(
-//
-//              itemBuilder: (BuildContext context, int index) {
-//                return ListTile(
-////                  leading: Image.network(
-////                    foodNotifier.foodList[index].img,
-////                    width: 200,
-////                  ),
-//                  title: Text(
-//                    foodNotifier.foodList[index].name,
-//                    style: TextStyle(color: Colors.black, fontSize: 23),
-//                  ),
-//                );
-//              },
-//              separatorBuilder: (BuildContext context, int index) {
-//                return SizedBox(height: 20);
-//              },
-//              itemCount: foodNotifier.foodList.length,
-//            ),
-//          ),
