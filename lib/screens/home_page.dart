@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: SafeArea(
                 child: authNotifier.user != null
                     ? Row(
@@ -69,18 +69,12 @@ class _HomePageState extends State<HomePage> {
                       ),
               ),
             ),
-            SizedBox(
-              height: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Explore',
-                style: TextStyle(
-                  color: Color.fromRGBO(255, 63, 111, 1),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              'Explore',
+              style: TextStyle(
+                color: Color.fromRGBO(255, 63, 111, 1),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
             ),
             StreamBuilder(
@@ -113,13 +107,20 @@ class _HomePageState extends State<HomePage> {
                             children: <Widget>[
                               Center(
                                 child: Padding(
-                                  child: ClipRRect(
-                                    child: Image.network(
-                                        snapshot.data.documents[index]['img']),
-                                    borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: snapshot.data.documents[index]
+                                                ['img'] !=
+                                            null
+                                        ? Image.network(
+                                            snapshot.data.documents[index]
+                                                ['img'],
+                                            fit: BoxFit.fitWidth,
+                                          )
+                                        : CircularProgressIndicator(),
                                   ),
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
+                                      horizontal: 0, vertical: 10),
                                 ),
                               ),
                               Container(

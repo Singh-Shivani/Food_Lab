@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,7 +49,7 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
 
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
       authNotifier.setUser(currentUser);
-//      Firestore.instance.collection('users').document(user.uid)
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {

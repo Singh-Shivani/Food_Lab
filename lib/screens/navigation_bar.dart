@@ -14,7 +14,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
 
   final List<Widget> _children = [
     HomePage(),
-    AddPostPage(),
+    ImageCapture(),
     ProfilePage(),
   ];
   @override
@@ -23,9 +23,9 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       extendBody: true,
       body: _children[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        color: Color.fromRGBO(255, 138, 120, 0.0),
+        color: Colors.white.withOpacity(0.5),
         backgroundColor: Colors.transparent,
-        buttonBackgroundColor: Color.fromRGBO(255, 138, 120, 0.1),
+        buttonBackgroundColor: Colors.white,
         height: 50,
         index: _selectedIndex,
         onTap: (index) {
@@ -37,17 +37,18 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
           Icon(
             Icons.home,
             size: 26,
-            color: Color.fromRGBO(255, 63, 111, 1),
+            color: Colors.black,
           ),
+//          Color.fromRGBO(247, 27, 104, 1),
           Icon(
-            Icons.edit,
+            Icons.add_box,
             size: 26,
-            color: Color.fromRGBO(255, 63, 111, 1),
+            color: Colors.black,
           ),
           Icon(
             Icons.account_circle,
             size: 26,
-            color: Color.fromRGBO(255, 63, 111, 1),
+            color: Colors.black,
           ),
         ],
       ),
