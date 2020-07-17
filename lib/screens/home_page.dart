@@ -13,14 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  signOutUser() {
-    AuthNotifier authNotifier =
-        Provider.of<AuthNotifier>(context, listen: false);
-    if (authNotifier.user != null) {
-      signOut(authNotifier, context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
@@ -38,11 +30,20 @@ class _HomePageState extends State<HomePage> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          Text(
+                            'Explore',
+                            style: TextStyle(
+                              color: Color.fromRGBO(255, 63, 111, 1),
+                              fontSize: 15,
+                            ),
+                          ),
                           Row(
                             children: <Widget>[
                               Text(
                                 'Hey, ',
-                                style: TextStyle(fontSize: 17),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
                               ),
                               Text(
                                 authNotifier.user.displayName + '!',
@@ -53,11 +54,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          GestureDetector(
-                              onTap: () {
-                                signOutUser();
-                              },
-                              child: Text('Sign Out'))
                         ],
                       )
                     : Text(
@@ -69,14 +65,6 @@ class _HomePageState extends State<HomePage> {
                       ),
               ),
             ),
-            Text(
-              'Explore',
-              style: TextStyle(
-                color: Color.fromRGBO(255, 63, 111, 1),
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             StreamBuilder(
                 stream: Firestore.instance.collection('foods').snapshots(),
                 builder: (context, snapshot) {
@@ -84,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                     return Column(
                       children: <Widget>[
                         Text(
-                          '\nloading...\n',
+                          'loading...\n',
                           style: TextStyle(
                             color: Color.fromRGBO(255, 63, 111, 1),
                           ),
@@ -106,21 +94,16 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Center(
-                                child: Padding(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: snapshot.data.documents[index]
-                                                ['img'] !=
-                                            null
-                                        ? Image.network(
-                                            snapshot.data.documents[index]
-                                                ['img'],
-                                            fit: BoxFit.fitWidth,
-                                          )
-                                        : CircularProgressIndicator(),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 0, vertical: 10),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: snapshot.data.documents[index]
+                                              ['img'] !=
+                                          null
+                                      ? Image.network(
+                                          snapshot.data.documents[index]['img'],
+                                          fit: BoxFit.fitWidth,
+                                        )
+                                      : CircularProgressIndicator(),
                                 ),
                               ),
                               Container(

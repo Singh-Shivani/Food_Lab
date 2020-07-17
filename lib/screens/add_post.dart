@@ -60,46 +60,118 @@ class _ImageCaptureState extends State<ImageCapture> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo_library),
-            onPressed: () {
-              _pickImage(ImageSource.gallery);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.camera),
-            onPressed: () {
-              _pickImage(ImageSource.camera);
-            },
-          ),
-          ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _imageFile != null
-                  ? Column(
-                      children: <Widget>[
-                        Image.file(_imageFile),
-                        Row(
-                          children: <Widget>[
-                            FlatButton(
-                              child: Icon(Icons.crop),
-//                              onPressed: _cropImage,
-                            ),
-                            FlatButton(
-                              child: Icon(Icons.refresh),
-                              onPressed: _clear,
-                            ),
-                          ],
-                        ),
-                        Uploader(file: _imageFile)
-                      ],
-                    )
-                  : Text('Select Image file'),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromRGBO(255, 138, 120, 1),
+              Color.fromRGBO(255, 114, 117, 1),
+              Color.fromRGBO(255, 63, 111, 1),
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-        ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.photo_library,
+                          ),
+                          onPressed: () {
+                            _pickImage(ImageSource.gallery);
+                          },
+                        ),
+                        Text('Select an image\nfrom phone gallery'),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.camera_alt,
+                          ),
+                          onPressed: () {
+                            _pickImage(ImageSource.camera);
+                          },
+                        ),
+                        Text('Click an image'),
+                      ],
+                    ),
+                  ],
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    _imageFile != null
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width - 20,
+                                child: Image.file(
+                                  _imageFile,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  FlatButton(
+                                    child: Icon(Icons.crop),
+//                              onPressed: _cropImage,
+                                  ),
+                                  FlatButton(
+                                    child: Icon(Icons.refresh),
+                                    onPressed: _clear,
+                                  ),
+                                ],
+                              ),
+                              Uploader(file: _imageFile)
+                            ],
+                          )
+                        : Center(child: Text('No file is selected')),
+                  ],
+                ),
+                Container(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Name the food',
+                    ),
+                  ),
+                ),
+                Container(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Write a caption',
+                    ),
+                  ),
+                ),
+                Container(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Give the recepie details',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
