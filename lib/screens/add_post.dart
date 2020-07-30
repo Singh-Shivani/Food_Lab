@@ -1,23 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-
-//class AddPostPage extends StatefulWidget {
-//  @override
-//  _AddPostPageState createState() => _AddPostPageState();
-//}
-//
-//class _AddPostPageState extends State<AddPostPage> {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      body: ImageCapture(),
-//    );
-//  }
-//}
 
 class ImageCapture extends StatefulWidget {
   @override
@@ -218,7 +205,7 @@ class _UploaderState extends State<Uploader> {
                 ),
               if (_uploadTask.isInProgress)
                 FlatButton(
-                  child: Icon(Icons.play_arrow),
+                  child: Icon(Icons.pause),
                   onPressed: _uploadTask.pause,
                 ),
               LinearProgressIndicator(value: progressPercent),
@@ -229,9 +216,18 @@ class _UploaderState extends State<Uploader> {
       );
     } else {
       return FlatButton.icon(
+        color: Colors.white,
         onPressed: _startUpload,
-        icon: Icon(Icons.file_upload),
-        label: Text('Upload img'),
+        icon: Icon(
+          Icons.file_upload,
+          color: Color.fromRGBO(255, 63, 111, 1),
+        ),
+        label: Text(
+          'Upload img',
+          style: TextStyle(
+            color: Color.fromRGBO(255, 63, 111, 1),
+          ),
+        ),
       );
     }
   }

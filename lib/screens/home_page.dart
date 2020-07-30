@@ -5,6 +5,7 @@ import 'package:foodlab/api/food_api.dart';
 
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
+import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
+    FoodNotifier foodNotifier =
+        Provider.of<FoodNotifier>(context, listen: false);
     print('building home');
     return Scaffold(
       body: SingleChildScrollView(
@@ -65,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                       ),
               ),
             ),
-            StreamBuilder(
+            StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance.collection('foods').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -85,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     );
                   } else {
+                    final posts = snapshot.data.documents;
                     return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -99,9 +103,25 @@ class _HomePageState extends State<HomePage> {
                                   child: snapshot.data.documents[index]
                                               ['img'] !=
                                           null
-                                      ? Image.network(
-                                          snapshot.data.documents[index]['img'],
-                                          fit: BoxFit.fitWidth,
+                                      ? GestureDetector(
+                                          child: Image.network(
+                                            snapshot.data.documents[index]
+                                                ['img'],
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                          onTap: () {
+//                                            foodNotifier.currentFood =
+//                                                snapshot.data.document[index];
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                                return FoodDetailPage(
+                                                  foodDetail: snapshot
+                                                      .data.documents[index],
+                                                );
+                                              },
+                                            ));
+                                          },
                                         )
                                       : CircularProgressIndicator(),
                                 ),
@@ -120,19 +140,13 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       height: 3,
                                     ),
-                                    Text(
-                                      snapshot.data.documents[index]['caption'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
                                   ],
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                             ],
                           );
