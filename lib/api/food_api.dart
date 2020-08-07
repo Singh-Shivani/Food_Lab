@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:foodlab/model/food.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
-import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as path;
 
 //USER PART
 login(User user, AuthNotifier authNotifier, BuildContext context) async {
@@ -80,18 +84,68 @@ initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
   }
 }
 
-//FOOD PART
-//getFoods(FoodNotifier foodNotifier) async {
-//  QuerySnapshot snapshot =
-//      await Firestore.instance.collection('foods').getDocuments();
-//
-//  List<Food> _foodList = [];
-//
-//  snapshot.documents.forEach((document) {
-//    Food food = Food.fromMap(document.data);
-//    _foodList.add(food);
-//  });
-//
-//  foodNotifier.foodList = _foodList;
-//  print(_foodList);
-//}
+Future<String> getCurrentUserUuid() async {
+  FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+  String uid = firebaseUser.uid;
+  print('uid of just now user: $uid');
+  return uid;
+}
+
+uploadFoodAndImages(Food food, File localFile, BuildContext context) async {
+  getCurrentUserUuid();
+  if (localFile != null) {
+    print('uploading img file');
+
+    var fileExtension = path.extension(localFile.path);
+    print(fileExtension);
+
+    var uuid = Uuid().v4();
+
+    final StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('images/$uuid$fileExtension');
+
+    StorageUploadTask task = firebaseStorageRef.putFile(localFile);
+
+    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+
+    String url = await taskSnapshot.ref.getDownloadURL();
+    print('dw url $url');
+    _uploadFood(food, context, imageUrl: url);
+  } else {
+    print('skipping img upload');
+    _uploadFood(food, context);
+  }
+}
+
+_uploadFood(Food food, BuildContext context, {String imageUrl}) async {
+  CollectionReference foodRef = Firestore.instance.collection('foods');
+  bool complete = true;
+  if (imageUrl != null) {
+    print(imageUrl);
+    try {
+      food.img = imageUrl;
+      print(food.img);
+    } catch (e) {
+      print(e);
+    }
+
+    food.createdAt = Timestamp.now();
+
+//    DocumentReference documentRef =
+    await foodRef
+        .add(food.toMap())
+        .catchError((e) => print(e))
+        .then((value) => complete = true);
+
+    print('uploaded food successfully');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return NavigationBarPage();
+        },
+      ),
+    );
+  }
+  return complete;
+}

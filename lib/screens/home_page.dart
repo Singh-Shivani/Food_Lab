@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlab/api/food_api.dart';
-
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';

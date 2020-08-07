@@ -1,10 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:foodlab/api/food_api.dart';
+import 'package:foodlab/screens/upload_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:foodlab/model/food.dart';
+
+import 'home_page.dart';
 
 class ImageCapture extends StatefulWidget {
   @override
@@ -12,6 +15,7 @@ class ImageCapture extends StatefulWidget {
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
+  Food food = Food();
   File _imageFile;
 
   Future<void> _pickImage(ImageSource source) async {
@@ -44,6 +48,10 @@ class _ImageCaptureState extends State<ImageCapture> {
     });
   }
 
+  _save() async {
+    uploadFoodAndImages(food, _imageFile, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +61,19 @@ class _ImageCaptureState extends State<ImageCapture> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromRGBO(255, 138, 120, 1),
-              Color.fromRGBO(255, 114, 117, 1),
-              Color.fromRGBO(255, 63, 111, 1),
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Colors.white,
+              Color.fromRGBO(252, 121, 101, 1),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -133,6 +151,9 @@ class _ImageCaptureState extends State<ImageCapture> {
                 ),
                 Container(
                   child: TextField(
+                    onChanged: (String value) {
+                      food.name = value;
+                    },
                     decoration: InputDecoration(
                       hintText: 'Name the food',
                     ),
@@ -140,17 +161,19 @@ class _ImageCaptureState extends State<ImageCapture> {
                 ),
                 Container(
                   child: TextField(
+                    onChanged: (String value) {
+                      food.caption = value;
+                    },
                     decoration: InputDecoration(
                       hintText: 'Write a caption',
                     ),
                   ),
                 ),
-                Container(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Give the recepie details',
-                    ),
-                  ),
+                GestureDetector(
+                  onTap: () {
+                    _save();
+                  },
+                  child: Text('Post'),
                 ),
                 SizedBox(
                   height: 40,
@@ -164,74 +187,6 @@ class _ImageCaptureState extends State<ImageCapture> {
   }
 }
 
-class Uploader extends StatefulWidget {
-  final File file;
-
-  Uploader({this.file});
-
-  @override
-  _UploaderState createState() => _UploaderState();
-}
-
-class _UploaderState extends State<Uploader> {
-  final FirebaseStorage _storage =
-      FirebaseStorage(storageBucket: 'gs://foodlab-d25f0.appspot.com');
-  StorageUploadTask _uploadTask;
-
-  void _startUpload() {
-    String filePath = 'images/${DateTime.now()}.png';
-
-    setState(() {
-      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_uploadTask != null) {
-      return StreamBuilder<StorageTaskEvent>(
-        stream: _uploadTask.events,
-        builder: (context, snapshot) {
-          var event = snapshot?.data?.snapshot;
-          double progressPercent =
-              event != null ? event.bytesTransferred / event.totalByteCount : 0;
-          return Column(
-            children: <Widget>[
-              if (_uploadTask.isComplete) Text('Done!!!'),
-              if (_uploadTask.isPaused)
-                FlatButton(
-                  child: Icon(Icons.play_arrow),
-                  onPressed: _uploadTask.resume,
-                ),
-              if (_uploadTask.isInProgress)
-                FlatButton(
-                  child: Icon(Icons.pause),
-                  onPressed: _uploadTask.pause,
-                ),
-              LinearProgressIndicator(value: progressPercent),
-              Text('${(progressPercent * 100).toStringAsFixed(2)} %'),
-            ],
-          );
-        },
-      );
-    } else {
-      return FlatButton.icon(
-        color: Colors.white,
-        onPressed: _startUpload,
-        icon: Icon(
-          Icons.file_upload,
-          color: Color.fromRGBO(255, 63, 111, 1),
-        ),
-        label: Text(
-          'Upload img',
-          style: TextStyle(
-            color: Color.fromRGBO(255, 63, 111, 1),
-          ),
-        ),
-      );
-    }
-  }
-}
 //android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait"
 //            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 //
