@@ -143,7 +143,7 @@ class _ImageCaptureState extends State<ImageCapture> {
                                   ),
                                 ],
                               ),
-                              Uploader(file: _imageFile)
+//                              Uploader(file: _imageFile)
                             ],
                           )
                         : Center(child: Text('No file is selected')),

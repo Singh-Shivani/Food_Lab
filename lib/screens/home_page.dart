@@ -25,49 +25,51 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: SafeArea(
-                child: authNotifier.user != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Explore',
-                            style: TextStyle(
-                              color: Color.fromRGBO(255, 63, 111, 1),
-                              fontSize: 15,
-                            ),
+              padding: EdgeInsets.only(top: 25, left: 10, right: 10),
+              child: authNotifier.user != null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'FoodLab',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 63, 111, 1),
+                            fontSize: 20,
+                            fontFamily: 'MuseoModerno',
                           ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Hey, ',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                authNotifier.user.displayName + '!',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(255, 63, 111, 1),
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    : Text(
-                        'Welcome',
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: Color.fromRGBO(255, 63, 111, 1),
                         ),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              'Hey, ',
+                              style: TextStyle(
+                                fontSize: 17,
+                              ),
+                            ),
+                            Text(
+                              authNotifier.user.displayName + '!',
+                              style: TextStyle(
+                                color: Color.fromRGBO(255, 63, 111, 1),
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : Text(
+                      'Welcome',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Color.fromRGBO(255, 63, 111, 1),
                       ),
-              ),
+                    ),
             ),
             StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection('foods').snapshots(),
+                stream: Firestore.instance
+                    .collection('foods')
+                    .orderBy('createdAt', descending: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Column(
@@ -81,12 +83,12 @@ class _HomePageState extends State<HomePage> {
                         CircularProgressIndicator(
                           backgroundColor: Color.fromRGBO(255, 63, 111, 1),
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              Color.fromRGBO(255, 138, 120, 1)),
+                            Color.fromRGBO(255, 138, 120, 1),
+                          ),
                         ),
                       ],
                     );
                   } else {
-                    final posts = snapshot.data.documents;
                     return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -96,32 +98,42 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Center(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: snapshot.data.documents[index]
-                                              ['img'] !=
-                                          null
-                                      ? GestureDetector(
-                                          child: Image.network(
-                                            snapshot.data.documents[index]
-                                                ['img'],
-                                            fit: BoxFit.fitWidth,
-                                          ),
-                                          onTap: () {
-//                                            foodNotifier.currentFood =
-//                                                snapshot.data.document[index];
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                              builder: (BuildContext context) {
-                                                return FoodDetailPage(
-                                                  foodDetail: snapshot
-                                                      .data.documents[index],
-                                                );
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: snapshot.data.documents[index]
+                                                  ['img'] !=
+                                              null
+                                          ? GestureDetector(
+                                              child: Container(
+                                                child: Image.network(
+                                                  snapshot.data.documents[index]
+                                                      ['img'],
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return FoodDetailPage(
+                                                      foodDetail: snapshot.data
+                                                          .documents[index],
+                                                    );
+                                                  },
+                                                ));
                                               },
-                                            ));
-                                          },
-                                        )
-                                      : CircularProgressIndicator(),
+                                            )
+                                          : CircularProgressIndicator(
+                                              backgroundColor: Color.fromRGBO(
+                                                  255, 63, 111, 1),
+                                            ),
+                                    ),
+                                  ),
                                 ),
                               ),
                               Container(
@@ -131,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                                     Text(
                                       snapshot.data.documents[index]['name'],
                                       style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -140,8 +152,8 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
+                                padding: EdgeInsets.only(
+                                    top: 5, bottom: 20, left: 20, right: 20),
                               ),
                               SizedBox(
                                 height: 10,
