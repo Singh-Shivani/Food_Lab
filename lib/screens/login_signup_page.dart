@@ -63,7 +63,8 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             validator: (String value) {
               if (value.isEmpty) {
-                return "Email is required";
+//                return "Email is required";
+                print('Email is required');
               }
               return null;
             },
@@ -99,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: true,
             validator: (String value) {
               if (value.isEmpty) {
-                return "password is required";
+//                return "Password is required";
+                print("Password is required");
               }
               return null;
             },
@@ -199,7 +201,8 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             validator: (String value) {
               if (value.isEmpty) {
-                return "User name is required";
+//                return "User name is required";
+                print("User name is required");
               }
               return null;
             },
@@ -234,7 +237,8 @@ class _LoginPageState extends State<LoginPage> {
           child: TextFormField(
             validator: (String value) {
               if (value.isEmpty) {
-                return "Email is required";
+//                return "Email is required";
+                print("Email is required");
               }
               return null;
             },
@@ -272,7 +276,8 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             validator: (String value) {
               if (value.isEmpty) {
-                return "Password is required";
+//                return "Password is required";
+                print("Password is required");
               }
               return null;
             },
@@ -308,10 +313,12 @@ class _LoginPageState extends State<LoginPage> {
           child: TextFormField(
             validator: (String value) {
               if (value.isEmpty) {
-                return "Re write password is required";
+//                return "Confirm password is required";
+                print("Confirm password is required");
               }
               if (_passwordController.text != value) {
-                return "Write Correct Password";
+//                return "Write Correct Password";
+                print("Write Correct Password");
               }
               return null;
             },
@@ -320,7 +327,7 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Color.fromRGBO(255, 63, 111, 1),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: 'Rewrite Password',
+              hintText: 'Confirm Password',
               hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(255, 63, 111, 1),

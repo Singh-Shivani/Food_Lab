@@ -35,6 +35,7 @@ login(User user, AuthNotifier authNotifier, BuildContext context) async {
 }
 
 signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
+  bool userDataUploaded = false;
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
           email: user.email.trim(), password: user.password)
@@ -43,6 +44,7 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
   if (authResult != null) {
     UserUpdateInfo updateInfo = UserUpdateInfo();
     updateInfo.displayName = user.displayName;
+
     FirebaseUser firebaseUser = authResult.user;
 
     if (firebaseUser != null) {
@@ -52,7 +54,10 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
       print("Sign Up: $firebaseUser");
 
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+
       authNotifier.setUser(currentUser);
+
+      uploadUserData(user, userDataUploaded);
 
       Navigator.push(
         context,
@@ -84,15 +89,7 @@ initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
   }
 }
 
-Future<String> getCurrentUserUuid() async {
-  FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
-  String uid = firebaseUser.uid;
-  print('uid of just now user: $uid');
-  return uid;
-}
-
 uploadFoodAndImages(Food food, File localFile, BuildContext context) async {
-  getCurrentUserUuid();
   if (localFile != null) {
     print('uploading img file');
 
@@ -130,8 +127,6 @@ _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
     }
 
     food.createdAt = Timestamp.now();
-
-//    DocumentReference documentRef =
     await foodRef
         .add(food.toMap())
         .catchError((e) => print(e))
@@ -148,4 +143,22 @@ _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
     );
   }
   return complete;
+}
+
+uploadUserData(User user, bool userdataUpload) async {
+  bool userDataUploadVar = userdataUpload;
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+
+  CollectionReference userRef = Firestore.instance.collection('users');
+  user.uuid = currentUser.uid;
+  if (userDataUploadVar != true) {
+    await userRef
+        .document(currentUser.uid)
+        .setData(user.toMap())
+        .catchError((e) => print(e))
+        .then((value) => userDataUploadVar = true);
+  } else {
+    print('already uploaded user data');
+  }
+  print('user data uploaded successfully');
 }

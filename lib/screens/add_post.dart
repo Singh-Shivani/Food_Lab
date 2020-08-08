@@ -7,8 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:foodlab/model/food.dart';
 
-import 'home_page.dart';
-
 class ImageCapture extends StatefulWidget {
   @override
   _ImageCaptureState createState() => _ImageCaptureState();

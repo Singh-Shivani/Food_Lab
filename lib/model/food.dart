@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Food {
-  String id;
+//  String id;
   String name;
   String img;
   String caption;
@@ -9,7 +9,7 @@ class Food {
 
   Food();
   Food.fromMap(Map<String, dynamic> data) {
-    id = data['id'];
+//    id = data['id'];
     name = data['name'];
     img = data['img'];
     caption = data['caption'];
