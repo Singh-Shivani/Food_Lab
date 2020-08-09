@@ -56,27 +56,28 @@ class _ImageCaptureState extends State<ImageCapture> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Colors.white,
-              Color.fromRGBO(252, 121, 101, 1),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+//        decoration: BoxDecoration(
+//          gradient: LinearGradient(
+//            colors: [
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+//              Colors.white,
+////              Color.fromRGBO(252, 121, 101, 1),
+//              Colors.black45
+//            ],
+//            begin: Alignment.topCenter,
+//            end: Alignment.bottomCenter,
+//          ),
+//        ),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           child: SingleChildScrollView(

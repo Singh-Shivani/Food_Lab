@@ -24,6 +24,7 @@ login(User user, AuthNotifier authNotifier, BuildContext context) async {
     if (firebaseUser != null) {
       print("Log In: $firebaseUser");
       authNotifier.setUser(firebaseUser);
+      await getUserDetails(authNotifier);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {
@@ -56,8 +57,11 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
 
       authNotifier.setUser(currentUser);
+//      user.setBio(user.bio);
 
       uploadUserData(user, userDataUploaded);
+
+      await getUserDetails(authNotifier);
 
       Navigator.push(
         context,
@@ -115,6 +119,7 @@ uploadFoodAndImages(Food food, File localFile, BuildContext context) async {
 }
 
 _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
   CollectionReference foodRef = Firestore.instance.collection('foods');
   bool complete = true;
   if (imageUrl != null) {
@@ -127,6 +132,7 @@ _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
     }
 
     food.createdAt = Timestamp.now();
+    food.userUuidOfPost = currentUser.uid;
     await foodRef
         .add(food.toMap())
         .catchError((e) => print(e))
@@ -161,4 +167,13 @@ uploadUserData(User user, bool userdataUpload) async {
     print('already uploaded user data');
   }
   print('user data uploaded successfully');
+}
+
+getUserDetails(AuthNotifier authNotifier) async {
+  await Firestore.instance
+      .collection('users')
+      .document(authNotifier.user.uid)
+      .get()
+      .catchError((e) => print(e))
+      .then((value) => authNotifier.setUserDetails(User.fromMap(value.data)));
 }

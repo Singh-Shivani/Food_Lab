@@ -223,10 +223,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ), //User Name TEXT FIELD
+        ),
         SizedBox(
           height: 20,
         ),
+
         Container(
           margin: EdgeInsets.symmetric(horizontal: 40),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),

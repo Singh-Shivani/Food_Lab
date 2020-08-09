@@ -35,25 +35,15 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                             color: Color.fromRGBO(255, 63, 111, 1),
                             fontSize: 20,
+                            fontWeight: FontWeight.bold,
                             fontFamily: 'MuseoModerno',
                           ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Hey, ',
-                              style: TextStyle(
-                                fontSize: 17,
-                              ),
-                            ),
-                            Text(
-                              authNotifier.user.displayName + '!',
-                              style: TextStyle(
-                                color: Color.fromRGBO(255, 63, 111, 1),
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'Explore',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     )

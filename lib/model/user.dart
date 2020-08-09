@@ -3,6 +3,7 @@ class User {
   String email;
   String password;
   String uuid;
+  String bio;
 
   User();
 
@@ -11,6 +12,7 @@ class User {
     email = data['email'];
     password = data['password'];
     uuid = data['uuid'];
+    bio = data['bio'];
   }
 
   Map<String, dynamic> toMap() {
@@ -19,6 +21,15 @@ class User {
       'email': email,
       'password': password,
       'uuid': uuid,
+      'bio': bio,
     };
+  }
+
+  void setBio(String userBio) {
+    this.bio = userBio;
+  }
+
+  Future<String> getBio() async {
+    return bio;
   }
 }
