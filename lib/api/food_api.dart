@@ -57,7 +57,6 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
       FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
 
       authNotifier.setUser(currentUser);
-//      user.setBio(user.bio);
 
       uploadUserData(user, userDataUploaded);
 
@@ -90,6 +89,7 @@ initializeCurrentUser(AuthNotifier authNotifier, BuildContext context) async {
   FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
   if (firebaseUser != null) {
     authNotifier.setUser(firebaseUser);
+    await getUserDetails(authNotifier);
   }
 }
 
