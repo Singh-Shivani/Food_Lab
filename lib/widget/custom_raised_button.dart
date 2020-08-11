@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomRaisedButton extends StatelessWidget {
   final String buttonText;
 
-  CustomRaisedButton({this.buttonText});
+  CustomRaisedButton({@required this.buttonText});
   @override
   Widget build(BuildContext context) {
     return Container(

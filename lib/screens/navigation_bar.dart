@@ -5,13 +5,13 @@ import 'package:foodlab/screens/profile_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class NavigationBarPage extends StatefulWidget {
+  int selectedIndex;
+  NavigationBarPage({@required this.selectedIndex});
   @override
   _NavigationBarPageState createState() => _NavigationBarPageState();
 }
 
 class _NavigationBarPageState extends State<NavigationBarPage> {
-  int _selectedIndex = 0;
-
   final List<Widget> _children = [
     HomePage(),
     ImageCapture(),
@@ -21,16 +21,16 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: _children[_selectedIndex],
+      body: _children[widget.selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.white.withOpacity(0.45),
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: Colors.white,
         height: 50,
-        index: _selectedIndex,
+        index: widget.selectedIndex,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index;
+            widget.selectedIndex = index;
           });
         },
         items: <Widget>[

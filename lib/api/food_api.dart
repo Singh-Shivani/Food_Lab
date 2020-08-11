@@ -28,7 +28,7 @@ login(User user, AuthNotifier authNotifier, BuildContext context) async {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return NavigationBarPage();
+          return NavigationBarPage(selectedIndex: 0);
         }),
       );
     }
@@ -65,7 +65,9 @@ signUp(User user, AuthNotifier authNotifier, BuildContext context) async {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return NavigationBarPage();
+          return NavigationBarPage(
+            selectedIndex: 0,
+          );
         }),
       );
     }
@@ -143,7 +145,9 @@ _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NavigationBarPage();
+          return NavigationBarPage(
+            selectedIndex: 0,
+          );
         },
       ),
     );

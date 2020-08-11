@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
 import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
+import 'package:foodlab/screens/navigation_bar.dart';
 import 'package:foodlab/screens/profile_page.dart';
 import 'package:foodlab/widget/custom_raised_button.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,10 +20,15 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -47,8 +53,13 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  controller: _editDisplayNameController,
+                child: TextFormField(
+                  autovalidate: true,
+                  controller: _editDisplayNameController
+                    ..text = authNotifier.userDetails.displayName,
+                  onSaved: (String value) {
+                    _user.displayName = value;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Name',
                   ),
@@ -59,8 +70,12 @@ class _EditProfileState extends State<EditProfile> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  controller: _editBioController,
+                child: TextFormField(
+                  controller: _editBioController
+                    ..text = authNotifier.userDetails.bio,
+                  onChanged: (String value) {
+                    _user.bio = value;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Bio',
                   ),
@@ -70,34 +85,35 @@ class _EditProfileState extends State<EditProfile> {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () async {
-                  FirebaseUser currentUser =
-                      await FirebaseAuth.instance.currentUser();
+                  child: CustomRaisedButton(buttonText: 'Save'),
+                  onTap: () async {
+                    _user.displayName = _editDisplayNameController.text;
+                    _user.bio = _editBioController.text;
+                    FirebaseUser currentUser =
+                        await FirebaseAuth.instance.currentUser();
 
-                  CollectionReference userRef =
-                      Firestore.instance.collection('users');
+                    CollectionReference userRef =
+                        Firestore.instance.collection('users');
 
-                  AuthNotifier authNotifier =
-                      Provider.of<AuthNotifier>(context, listen: false);
+                    AuthNotifier authNotifier =
+                        Provider.of<AuthNotifier>(context, listen: false);
+                    print(_user.bio);
+                    print(_user.displayName);
 
-                  await userRef
-                      .document(currentUser.uid)
-                      .setData({
-                        'bio': _user.bio,
-                        'displayName': _user.displayName,
-                      }, merge: true)
-                      .catchError((e) => print(e))
-                      .whenComplete(() => getUserDetails(authNotifier));
+                    await userRef
+                        .document(currentUser.uid)
+                        .setData({
+                          'bio': _user.bio,
+                          'displayName': _user.displayName,
+                        }, merge: true)
+                        .catchError((e) => print(e))
+                        .whenComplete(() => getUserDetails(authNotifier));
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return ProfilePage();
-                    }),
-                  );
-                },
-                child: CustomRaisedButton(buttonText: 'Save'),
-              ),
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return NavigationBarPage(selectedIndex: 2);
+                    }));
+                  }),
             ],
           ),
         ),

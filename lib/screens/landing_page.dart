@@ -68,7 +68,7 @@ class _LandingPageState extends State<LandingPage> {
                   builder: (BuildContext context) {
                     return (authNotifier.user == null)
                         ? LoginPage()
-                        : NavigationBarPage();
+                        : NavigationBarPage(selectedIndex: 0);
                   },
                 ));
               },

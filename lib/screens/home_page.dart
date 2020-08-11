@@ -84,71 +84,73 @@ class _HomePageState extends State<HomePage> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(30),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: snapshot.data.documents[index]
-                                                  ['img'] !=
-                                              null
-                                          ? GestureDetector(
-                                              child: Container(
-                                                child: Image.network(
-                                                  snapshot.data.documents[index]
-                                                      ['img'],
-                                                  fit: BoxFit.fitWidth,
-                                                ),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  child: Text('username'),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: snapshot.data.documents[index]
+                                                ['img'] !=
+                                            null
+                                        ? GestureDetector(
+                                            child: Container(
+                                              child: Image.network(
+                                                snapshot.data.documents[index]
+                                                    ['img'],
+                                                fit: BoxFit.cover,
                                               ),
-                                              onTap: () {
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return FoodDetailPage(
-                                                      foodDetail: snapshot.data
-                                                          .documents[index],
-                                                    );
-                                                  },
-                                                ));
-                                              },
-                                            )
-                                          : CircularProgressIndicator(
-                                              backgroundColor: Color.fromRGBO(
-                                                  255, 63, 111, 1),
                                             ),
-                                    ),
+                                            onTap: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return FoodDetailPage(
+                                                    foodDetail: snapshot
+                                                        .data.documents[index],
+                                                  );
+                                                },
+                                              ));
+                                            },
+                                          )
+                                        : CircularProgressIndicator(
+                                            backgroundColor:
+                                                Color.fromRGBO(255, 63, 111, 1),
+                                          ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      snapshot.data.documents[index]['name'],
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data.documents[index]['name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      top: 5, bottom: 10, left: 8),
                                 ),
-                                padding: EdgeInsets.only(
-                                    top: 5, bottom: 20, left: 20, right: 20),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           );
                         });
                   }

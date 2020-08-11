@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:foodlab/api/food_api.dart';
 import 'package:foodlab/screens/upload_image.dart';
+import 'package:foodlab/widget/custom_raised_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:foodlab/model/food.dart';
@@ -83,38 +84,68 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.photo_library,
-                          ),
-                          onPressed: () {
-                            _pickImage(ImageSource.gallery);
-                          },
-                        ),
-                        Text('Select an image\nfrom phone gallery'),
-                      ],
+                Text('Post'),
+                SizedBox(height: 40),
+                Container(
+                  child: TextField(
+                    onChanged: (String value) {
+                      food.name = value;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Give a name to your food',
                     ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.camera_alt,
-                          ),
-                          onPressed: () {
-                            _pickImage(ImageSource.camera);
-                          },
-                        ),
-                        Text('Click an image'),
-                      ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: TextField(
+                    onChanged: (String value) {
+                      food.caption = value;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Write a caption',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.photo_library,
+                        size: 50,
+                      ),
+                      onPressed: () {
+                        _pickImage(ImageSource.gallery);
+                      },
+                    ),
+                    Text(
+                      '||',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromRGBO(255, 138, 120, 1),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.camera_alt,
+                        size: 50,
+                      ),
+                      onPressed: () {
+                        _pickImage(ImageSource.camera);
+                      },
                     ),
                   ],
                 ),
+                SizedBox(height: 10),
                 ListView(
                   shrinkWrap: true,
                   children: <Widget>[
@@ -145,37 +176,29 @@ class _ImageCaptureState extends State<ImageCapture> {
 //                              Uploader(file: _imageFile)
                             ],
                           )
-                        : Center(child: Text('No file is selected')),
+                        : Center(
+                            child: Text(
+                              'selected image will be shown here',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
                   ],
                 ),
-                Container(
-                  child: TextField(
-                    onChanged: (String value) {
-                      food.name = value;
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      _save();
                     },
-                    decoration: InputDecoration(
-                      hintText: 'Name the food',
+                    child: CustomRaisedButton(
+                      buttonText: 'Post',
                     ),
                   ),
-                ),
-                Container(
-                  child: TextField(
-                    onChanged: (String value) {
-                      food.caption = value;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Write a caption',
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _save();
-                  },
-                  child: Text('Post'),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 50,
                 ),
               ],
             ),

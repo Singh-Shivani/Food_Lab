@@ -25,11 +25,11 @@ class User {
     };
   }
 
-  void setBio(String userBio) {
-    this.bio = userBio;
-  }
-
-  Future<String> getBio() async {
-    return bio;
-  }
+//  void setBio(String userBio) {
+//    this.bio = userBio;
+//  }
+//
+//  Future<String> getBio() async {
+//    return bio;
+//  }
 }
