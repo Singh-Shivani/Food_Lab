@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     authNotifier.userDetails.bio,
                     style: TextStyle(fontSize: 15),
                   )
-                : Text("No Bio"),
+                : Text("Food-iee"),
             SizedBox(
               height: 40,
             ),
@@ -120,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Text('no data');
+                  return Text("You haven't posted anything");
                 } else {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -146,14 +146,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return FoodDetailPage(
-                                          foodDetail:
-                                              snapshot.data.documents[index],
-                                        );
-                                      },
-                                    ));
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return FoodDetailPage(
+                                            imgUrl: snapshot
+                                                .data.documents[index]['img'],
+                                            imageName: snapshot
+                                                .data.documents[index]['name'],
+                                            imageCaption: snapshot.data
+                                                .documents[index]['caption'],
+                                          );
+                                        },
+                                      ),
+                                    );
                                   },
                                 )
                               : Text("You haven't posted anything"),

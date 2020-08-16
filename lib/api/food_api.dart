@@ -234,6 +234,7 @@ getFoods(FoodNotifier foodNotifier) async {
         .catchError((e) => print(e))
         .then((value) {
       food.userName = value.data['displayName'];
+      food.profilePictureOfUser = value.data['profilePic'];
     }).whenComplete(() => foodList.add(food));
   });
 

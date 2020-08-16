@@ -1,17 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodlab/notifier/food_notifier.dart';
-import 'package:provider/provider.dart';
 
 class FoodDetailPage extends StatelessWidget {
-  final DocumentSnapshot foodDetail;
+  final String imgUrl;
+  final String imageName;
+  final String imageCaption;
 
-  FoodDetailPage({@required this.foodDetail});
+  FoodDetailPage({@required this.imgUrl, this.imageName, this.imageCaption});
 
   @override
   Widget build(BuildContext context) {
-    FoodNotifier foodNotifier =
-        Provider.of<FoodNotifier>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -25,7 +22,7 @@ class FoodDetailPage extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Image.network(
-                    foodDetail.data['img'],
+                    imgUrl,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -36,7 +33,7 @@ class FoodDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      foodDetail.data['name'],
+                      imageName,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -46,7 +43,7 @@ class FoodDetailPage extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      foodDetail.data['caption'],
+                      imageCaption,
                       style: TextStyle(
                         fontSize: 14,
                       ),

@@ -71,64 +71,6 @@ class _ImageCaptureState extends State<ImageCapture> {
                     color: Color.fromRGBO(255, 138, 120, 1),
                   ),
                 ),
-                SizedBox(height: 40),
-                Container(
-                  child: TextField(
-                    onChanged: (String value) {
-                      food.name = value;
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Give a name to your food',
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: TextField(
-                    onChanged: (String value) {
-                      food.caption = value;
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Write a caption',
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.photo_library,
-                        size: 50,
-                      ),
-                      onPressed: () {
-                        _pickImage(ImageSource.gallery);
-                      },
-                    ),
-                    Text(
-                      '||',
-                      style: TextStyle(
-                        fontSize: 30,
-//                        color: Color.fromRGBO(255, 138, 120, 1),
-                        color: Colors.white54,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.camera_alt,
-                        size: 50,
-                      ),
-                      onPressed: () {
-                        _pickImage(ImageSource.camera);
-                      },
-                    ),
-                  ],
-                ),
                 SizedBox(height: 10),
                 ListView(
                   shrinkWrap: true,
@@ -157,21 +99,73 @@ class _ImageCaptureState extends State<ImageCapture> {
                                   ),
                                 ],
                               ),
-//                              Uploader(file: _imageFile)
                             ],
                           )
-                        : Center(
-                            child: Text(
-                              'selected image will be shown here',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white54,
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  _pickImage(ImageSource.gallery);
+                                },
+                                child: Container(
+                                  width: 80,
+                                  height: 80,
+                                  child: Card(
+                                    elevation: 10,
+                                    shadowColor:
+                                        Color.fromRGBO(255, 63, 111, 1),
+                                    child: Icon(Icons.photo_library, size: 50),
+                                  ),
+                                ),
                               ),
-                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  _pickImage(ImageSource.camera);
+                                },
+                                child: Container(
+                                  width: 80,
+                                  height: 80,
+                                  child: Card(
+                                    elevation: 8,
+                                    shadowColor:
+                                        Color.fromRGBO(255, 138, 120, 1),
+                                    child: Icon(Icons.camera_alt, size: 50),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
+                    SizedBox(height: 40),
                   ],
                 ),
                 SizedBox(height: 30),
+                Container(
+                  child: TextField(
+                    onChanged: (String value) {
+                      food.name = value;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Name your food',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: TextField(
+                    onChanged: (String value) {
+                      food.caption = value;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Write a caption',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
                 Center(
                   child: GestureDetector(
                     onTap: () {

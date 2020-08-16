@@ -36,6 +36,9 @@ dependencies:
   image_cropper: ^1.2.3
   uuid: 2.2.0
   path: ^1.6.4
+  gradient_text: ^1.0.2
+  overlay_support: ^1.0.4
+
 
 
 

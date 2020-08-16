@@ -9,6 +9,7 @@ class Food {
 
   //User details
   String userName;
+  String profilePictureOfUser;
 
   Food();
   Food.fromMap(Map<String, dynamic> data) {
