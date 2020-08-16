@@ -8,6 +8,7 @@ import 'package:foodlab/model/food.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodlab/model/user.dart';
+import 'package:foodlab/notifier/food_notifier.dart';
 import 'package:foodlab/screens/login_signup_page.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
 import 'package:uuid/uuid.dart';
@@ -120,6 +121,41 @@ uploadFoodAndImages(Food food, File localFile, BuildContext context) async {
   }
 }
 
+uploadProfilePic(File localFile, User user) async {
+  FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+  CollectionReference userRef = Firestore.instance.collection('users');
+
+  if (localFile != null) {
+    var fileExtension = path.extension(localFile.path);
+    print(fileExtension);
+
+    var uuid = Uuid().v4();
+
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child('profilePictures/$uuid$fileExtension');
+
+    StorageUploadTask task = firebaseStorageRef.putFile(localFile);
+
+    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+
+    String profilePicUrl = await taskSnapshot.ref.getDownloadURL();
+    print('dw url of profile img $profilePicUrl');
+
+    try {
+      user.profilePic = profilePicUrl;
+      print(user.profilePic);
+      await userRef.document(currentUser.uid).setData(
+          {'profilePic': user.profilePic},
+          merge: true).catchError((e) => print(e));
+    } catch (e) {
+      print(e);
+    }
+  } else {
+    print('skipping profilepic upload');
+  }
+}
+
 _uploadFood(Food food, BuildContext context, {String imageUrl}) async {
   FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
   CollectionReference foodRef = Firestore.instance.collection('foods');
@@ -180,4 +216,30 @@ getUserDetails(AuthNotifier authNotifier) async {
       .get()
       .catchError((e) => print(e))
       .then((value) => authNotifier.setUserDetails(User.fromMap(value.data)));
+}
+
+getFoods(FoodNotifier foodNotifier) async {
+  QuerySnapshot snapshot =
+      await Firestore.instance.collection('foods').getDocuments();
+
+  List<Food> foodList = [];
+
+  await Future.forEach(snapshot.documents, (doc) async {
+    Food food = Food.fromMap(doc.data);
+
+    await Firestore.instance
+        .collection('users')
+        .document(doc.data['userUuidOfPost'])
+        .get()
+        .catchError((e) => print(e))
+        .then((value) {
+      food.userName = value.data['displayName'];
+    }).whenComplete(() => foodList.add(food));
+  });
+
+  if (foodList.isNotEmpty) {
+    foodNotifier.foodList = foodList;
+    print("dine");
+    print(foodList[0].userName);
+  }
 }

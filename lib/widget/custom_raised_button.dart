@@ -7,7 +7,7 @@ class CustomRaisedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 55, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [

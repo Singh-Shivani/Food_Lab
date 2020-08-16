@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,6 @@ import 'package:provider/provider.dart';
 
 TextEditingController _editBioController = TextEditingController();
 TextEditingController _editDisplayNameController = TextEditingController();
-User _user = User();
 
 class EditProfile extends StatefulWidget {
   @override
@@ -20,8 +21,20 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  void refresh() {
-    setState(() {});
+  User _user = User();
+  File _profileImageFile;
+
+  Future<void> _pickImage() async {
+    final selected = await ImagePicker().getImage(source: ImageSource.gallery);
+    setState(() {
+      _profileImageFile = File(selected.path);
+    });
+  }
+
+  void _clear() {
+    setState(() {
+      _profileImageFile = null;
+    });
   }
 
   @override
@@ -51,6 +64,61 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
               SizedBox(height: 20),
+              _profileImageFile != null
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundImage: FileImage(_profileImageFile),
+                          radius: 60,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              child: Icon(Icons.crop),
+//                              onPressed: _cropImage,
+                            ),
+                            FlatButton(
+                              child: Icon(Icons.refresh),
+                              onPressed: _clear,
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        _pickImage();
+                      },
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              decoration: new BoxDecoration(
+                                color: Colors.grey.withOpacity(0.3),
+                                shape: BoxShape.circle,
+                              ),
+                              width: 100,
+                              child: Icon(
+                                Icons.person,
+                                size: 80,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              'Select Profile Image',
+                              style: TextStyle(fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
@@ -82,38 +150,43 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 100,
               ),
               GestureDetector(
-                  child: CustomRaisedButton(buttonText: 'Save'),
-                  onTap: () async {
-                    _user.displayName = _editDisplayNameController.text;
-                    _user.bio = _editBioController.text;
-                    FirebaseUser currentUser =
-                        await FirebaseAuth.instance.currentUser();
+                child: CustomRaisedButton(buttonText: 'Save'),
+                onTap: () async {
+                  await uploadProfilePic(_profileImageFile, _user);
 
-                    CollectionReference userRef =
-                        Firestore.instance.collection('users');
+                  _user.displayName = _editDisplayNameController.text;
+                  _user.bio = _editBioController.text;
+                  FirebaseUser currentUser =
+                      await FirebaseAuth.instance.currentUser();
 
-                    AuthNotifier authNotifier =
-                        Provider.of<AuthNotifier>(context, listen: false);
-                    print(_user.bio);
-                    print(_user.displayName);
+                  CollectionReference userRef =
+                      Firestore.instance.collection('users');
 
-                    await userRef
-                        .document(currentUser.uid)
-                        .setData({
-                          'bio': _user.bio,
-                          'displayName': _user.displayName,
-                        }, merge: true)
-                        .catchError((e) => print(e))
-                        .whenComplete(() => getUserDetails(authNotifier));
+                  AuthNotifier authNotifier =
+                      Provider.of<AuthNotifier>(context, listen: false);
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return NavigationBarPage(selectedIndex: 2);
-                    }));
-                  }),
+                  await userRef
+                      .document(currentUser.uid)
+                      .setData({
+                        'bio': _user.bio,
+                        'displayName': _user.displayName,
+                      }, merge: true)
+                      .catchError((e) => print(e))
+                      .whenComplete(() => getUserDetails(authNotifier));
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return NavigationBarPage(selectedIndex: 2);
+                      },
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

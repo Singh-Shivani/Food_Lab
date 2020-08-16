@@ -7,6 +7,7 @@ class FoodDetailPage extends StatelessWidget {
   final DocumentSnapshot foodDetail;
 
   FoodDetailPage({@required this.foodDetail});
+
   @override
   Widget build(BuildContext context) {
     FoodNotifier foodNotifier =

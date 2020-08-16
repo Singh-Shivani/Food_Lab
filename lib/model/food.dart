@@ -7,6 +7,9 @@ class Food {
   String userUuidOfPost;
   Timestamp createdAt;
 
+  //User details
+  String userName;
+
   Food();
   Food.fromMap(Map<String, dynamic> data) {
     name = data['name'];

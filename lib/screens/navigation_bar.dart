@@ -23,7 +23,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       extendBody: true,
       body: _children[widget.selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        color: Colors.white.withOpacity(0.45),
+        color: Colors.white,
         backgroundColor: Colors.transparent,
         buttonBackgroundColor: Colors.white,
         height: 50,

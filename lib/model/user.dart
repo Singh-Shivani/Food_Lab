@@ -1,9 +1,13 @@
+import 'dart:io';
+
 class User {
   String displayName;
   String email;
   String password;
   String uuid;
   String bio;
+  String profilePic;
+  File profileFile;
 
   User();
 
@@ -13,6 +17,7 @@ class User {
     password = data['password'];
     uuid = data['uuid'];
     bio = data['bio'];
+    profilePic = data['profilePic'];
   }
 
   Map<String, dynamic> toMap() {
@@ -22,14 +27,7 @@ class User {
       'password': password,
       'uuid': uuid,
       'bio': bio,
+      'profilePic': profilePic,
     };
   }
-
-//  void setBio(String userBio) {
-//    this.bio = userBio;
-//  }
-//
-//  Future<String> getBio() async {
-//    return bio;
-//  }
 }

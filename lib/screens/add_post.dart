@@ -57,28 +57,6 @@ class _ImageCaptureState extends State<ImageCapture> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-//        decoration: BoxDecoration(
-//          gradient: LinearGradient(
-//            colors: [
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-//              Colors.white,
-////              Color.fromRGBO(252, 121, 101, 1),
-//              Colors.black45
-//            ],
-//            begin: Alignment.topCenter,
-//            end: Alignment.bottomCenter,
-//          ),
-//        ),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           child: SingleChildScrollView(
@@ -87,7 +65,12 @@ class _ImageCaptureState extends State<ImageCapture> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Post'),
+                Text(
+                  'Post',
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 138, 120, 1),
+                  ),
+                ),
                 SizedBox(height: 40),
                 Container(
                   child: TextField(
@@ -130,8 +113,9 @@ class _ImageCaptureState extends State<ImageCapture> {
                     Text(
                       '||',
                       style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromRGBO(255, 138, 120, 1),
+                        fontSize: 30,
+//                        color: Color.fromRGBO(255, 138, 120, 1),
+                        color: Colors.white54,
                       ),
                     ),
                     IconButton(
@@ -181,12 +165,13 @@ class _ImageCaptureState extends State<ImageCapture> {
                               'selected image will be shown here',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey,
+                                color: Colors.white54,
                               ),
                             ),
                           ),
                   ],
                 ),
+                SizedBox(height: 30),
                 Center(
                   child: GestureDetector(
                     onTap: () {

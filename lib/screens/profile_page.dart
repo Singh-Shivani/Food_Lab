@@ -41,79 +41,77 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'My Profile',
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 30),
-                    child: GestureDetector(
-                      onTap: () {
-                        signOutUser();
-                      },
-                      child: Text(
-                        'Sign Out',
-                        style: TextStyle(
-                          color: Color.fromRGBO(255, 63, 111, 1),
-                        ),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 30, right: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      signOutUser();
+                    },
+                    child: Icon(
+                      Icons.person_add,
                     ),
                   ),
-                ],
-              ),
-            ), //HeaderInfoOfUser
+                ),
+              ],
+            ),
+            authNotifier.userDetails.profilePic != null
+                ? CircleAvatar(
+                    radius: 40.0,
+                    backgroundImage:
+                        NetworkImage(authNotifier.userDetails.profilePic),
+                    backgroundColor: Colors.transparent,
+                  )
+                : Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.grey.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    width: 100,
+                    child: Icon(
+                      Icons.person,
+                      size: 70,
+                    ),
+                  ),
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('User Profile Image'),
-                  Column(
-                    children: <Widget>[
-                      authNotifier.userDetails.displayName != null
-                          ? Text(
-                              authNotifier.userDetails.displayName,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 25,
-                                fontFamily: 'MuseoModerno',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Text('Please provide name'),
-                      authNotifier.userDetails.bio != null
-                          ? Text(authNotifier.userDetails.bio)
-                          : Text("No Bio"),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                              return EditProfile();
-                            }),
-                          );
-                        },
-                        child: CustomRaisedButton(buttonText: 'Edit Profile'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            authNotifier.userDetails.displayName != null
+                ? Text(
+                    authNotifier.userDetails.displayName,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontFamily: 'MuseoModerno',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : Text("You don't have a user name"),
+            authNotifier.userDetails.bio != null
+                ? Text(
+                    authNotifier.userDetails.bio,
+                    style: TextStyle(fontSize: 15),
+                  )
+                : Text("No Bio"),
+            SizedBox(
+              height: 40,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                    return EditProfile();
+                  }),
+                );
+              },
+              child: CustomRaisedButton(buttonText: 'Edit Profile'),
             ),
             SizedBox(
-              height: 30,
+              height: 20,
             ),
-
             StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance
                   .collection('foods')
@@ -124,7 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 if (!snapshot.hasData) {
                   return Text('no data');
                 } else {
-                  return GridView.builder(
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       shrinkWrap: true,
@@ -133,35 +133,34 @@ class _ProfilePageState extends State<ProfilePage> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: snapshot.data.documents[index]['img'] != null
-                                ? GestureDetector(
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          child: snapshot.data.documents[index]['img'] != null
+                              ? GestureDetector(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
                                     child: Container(
                                       child: Image.network(
                                         snapshot.data.documents[index]['img'],
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                          return FoodDetailPage(
-                                            foodDetail:
-                                                snapshot.data.documents[index],
-                                          );
-                                        },
-                                      ));
-                                    },
-                                  )
-                                : CircularProgressIndicator(
-                                    backgroundColor:
-                                        Color.fromRGBO(255, 63, 111, 1),
                                   ),
-                          ),
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return FoodDetailPage(
+                                          foodDetail:
+                                              snapshot.data.documents[index],
+                                        );
+                                      },
+                                    ));
+                                  },
+                                )
+                              : Text("You haven't posted anything"),
                         );
-                      });
+                      },
+                    ),
+                  );
                 }
               },
             )
