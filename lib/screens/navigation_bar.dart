@@ -39,7 +39,6 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
             size: 26,
             color: Colors.black,
           ),
-//          Color.fromRGBO(247, 27, 104, 1),
           Icon(
             Icons.add_box,
             size: 26,

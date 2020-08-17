@@ -1,7 +1,5 @@
 import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
-import 'package:foodlab/api/food_api.dart';
 import 'package:foodlab/model/food.dart';
 
 class FoodNotifier with ChangeNotifier {

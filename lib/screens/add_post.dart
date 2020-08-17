@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:foodlab/api/food_api.dart';
-import 'package:foodlab/screens/upload_image.dart';
 import 'package:foodlab/widget/custom_raised_button.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:foodlab/model/food.dart';
 
 class ImageCapture extends StatefulWidget {
@@ -23,23 +21,6 @@ class _ImageCaptureState extends State<ImageCapture> {
       _imageFile = File(selected.path);
     });
   }
-
-//  Future<void> _cropImage() async {
-//    File cropped = await ImageCropper.cropImage(
-//        sourcePath: _imageFile.path,
-//        androidUiSettings: AndroidUiSettings(
-//            toolbarTitle: 'Crop Image',
-//            toolbarColor: Colors.deepOrange,
-//            toolbarWidgetColor: Colors.white,
-//            initAspectRatio: CropAspectRatioPreset.original,
-//            lockAspectRatio: false),
-//        iosUiSettings: IOSUiSettings(
-//          title: 'Cropper',
-//        ));
-//    setState(() {
-//      _imageFile = cropped ?? _imageFile;
-//    });
-//  }
 
   void _clear() {
     setState(() {
@@ -62,8 +43,7 @@ class _ImageCaptureState extends State<ImageCapture> {
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   'Post',
@@ -79,20 +59,23 @@ class _ImageCaptureState extends State<ImageCapture> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width - 20,
-                                child: Image.file(
-                                  _imageFile,
-                                  fit: BoxFit.fitWidth,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 20,
+                                  child: Image.file(
+                                    _imageFile,
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  FlatButton(
-                                    child: Icon(Icons.crop),
-//                              onPressed: _cropImage,
-                                  ),
+//                                  FlatButton(
+//                                    child: Icon(Icons.crop),
+////                              onPressed: _cropImage,
+//                                  ),
                                   FlatButton(
                                     child: Icon(Icons.refresh),
                                     onPressed: _clear,
@@ -101,52 +84,28 @@ class _ImageCaptureState extends State<ImageCapture> {
                               ),
                             ],
                           )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  _pickImage(ImageSource.gallery);
-                                },
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Card(
-                                    elevation: 10,
-                                    shadowColor:
-                                        Color.fromRGBO(255, 63, 111, 1),
-                                    child: Icon(Icons.photo_library, size: 50),
-                                  ),
-                                ),
+                        : GestureDetector(
+                            onTap: () {
+                              _pickImage(ImageSource.gallery);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.asset(
+                                'images/uploadFoodImageOnPost.png',
+                                fit: BoxFit.cover,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _pickImage(ImageSource.camera);
-                                },
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Card(
-                                    elevation: 8,
-                                    shadowColor:
-                                        Color.fromRGBO(255, 138, 120, 1),
-                                    child: Icon(Icons.camera_alt, size: 50),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                    SizedBox(height: 40),
                   ],
                 ),
-                SizedBox(height: 30),
                 Container(
                   child: TextField(
                     onChanged: (String value) {
                       food.name = value;
                     },
                     decoration: InputDecoration(
-                      labelText: 'Name your food',
+                      labelText: 'Add a Title',
                     ),
                   ),
                 ),
@@ -155,6 +114,8 @@ class _ImageCaptureState extends State<ImageCapture> {
                 ),
                 Container(
                   child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     onChanged: (String value) {
                       food.caption = value;
                     },
@@ -187,7 +148,3 @@ class _ImageCaptureState extends State<ImageCapture> {
     );
   }
 }
-
-//android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait"
-//            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-//

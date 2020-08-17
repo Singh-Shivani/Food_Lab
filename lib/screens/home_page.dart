@@ -136,10 +136,13 @@ class _HomePageState extends State<HomePage> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
-                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
                                 child: foodNotifier.foodList[index].img != null
                                     ? GestureDetector(
                                         child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           child: Image.network(
                                             foodNotifier.foodList[index].img,
                                             fit: BoxFit.cover,
@@ -157,6 +160,13 @@ class _HomePageState extends State<HomePage> {
                                                       .foodList[index].name,
                                                   imageCaption: foodNotifier
                                                       .foodList[index].caption,
+                                                  userName: foodNotifier
+                                                      .foodList[index].userName,
+                                                  createdTimeOfPost:
+                                                      foodNotifier
+                                                          .foodList[index]
+                                                          .createdAt
+                                                          .toDate(),
                                                 );
                                               },
                                             ),
@@ -181,7 +191,20 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 )
-              : Text('Nothing to show here'),
+              : Column(
+                  children: <Widget>[
+                    CircularProgressIndicator(
+                      backgroundColor: Color.fromRGBO(255, 63, 111, 1),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color.fromRGBO(255, 138, 120, 1),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('Loading'),
+                  ],
+                ),
         ],
       ),
     );

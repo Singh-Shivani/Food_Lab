@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlab/api/food_api.dart';
-import 'package:foodlab/model/food.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/screens/detail_food_page.dart';
 import 'package:foodlab/screens/edit_profile_page.dart';
@@ -27,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     AuthNotifier authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
+
     getUserDetails(authNotifier);
     super.initState();
   }
@@ -119,11 +118,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       isEqualTo: authNotifier.userDetails.uuid)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Text("You haven't posted anything");
-                } else {
+                if (snapshot.hasData && snapshot.data.documents.length > 0) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
@@ -134,43 +131,50 @@ class _ProfilePageState extends State<ProfilePage> {
                         return Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          child: snapshot.data.documents[index]['img'] != null
-                              ? GestureDetector(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Container(
-                                      child: Image.network(
-                                        snapshot.data.documents[index]['img'],
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                          return FoodDetailPage(
-                                            imgUrl: snapshot
-                                                .data.documents[index]['img'],
-                                            imageName: snapshot
-                                                .data.documents[index]['name'],
-                                            imageCaption: snapshot.data
-                                                .documents[index]['caption'],
-                                          );
-                                        },
-                                      ),
+                          child: GestureDetector(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                child: Image.network(
+                                  snapshot.data.documents[index]['img'],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return FoodDetailPage(
+                                      imgUrl: snapshot.data.documents[index]
+                                          ['img'],
+                                      imageName: snapshot.data.documents[index]
+                                          ['name'],
+                                      imageCaption: snapshot
+                                          .data.documents[index]['caption'],
+                                      createdTimeOfPost: snapshot
+                                          .data.documents[index]['createdAt']
+                                          .toDate(),
                                     );
                                   },
-                                )
-                              : Text("You haven't posted anything"),
+                                ),
+                              );
+                            },
+                          ),
                         );
                       },
                     ),
                   );
+                } else {
+                  return Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Image.asset('images/undraw_cooking_lyxy.png'),
+                  );
                 }
               },
-            )
+            ),
           ],
         ),
       ),

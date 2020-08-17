@@ -12,6 +12,7 @@ class Food {
   String profilePictureOfUser;
 
   Food();
+
   Food.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     img = data['img'];

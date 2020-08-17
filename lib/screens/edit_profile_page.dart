@@ -7,7 +7,6 @@ import 'package:foodlab/api/food_api.dart';
 import 'package:foodlab/model/user.dart';
 import 'package:foodlab/notifier/auth_notifier.dart';
 import 'package:foodlab/screens/navigation_bar.dart';
-import 'package:foodlab/screens/profile_page.dart';
 import 'package:foodlab/widget/custom_raised_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -72,18 +71,9 @@ class _EditProfileState extends State<EditProfile> {
                           backgroundImage: FileImage(_profileImageFile),
                           radius: 60,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            FlatButton(
-                              child: Icon(Icons.crop),
-//                              onPressed: _cropImage,
-                            ),
-                            FlatButton(
-                              child: Icon(Icons.refresh),
-                              onPressed: _clear,
-                            ),
-                          ],
+                        FlatButton(
+                          child: Icon(Icons.refresh),
+                          onPressed: _clear,
                         ),
                       ],
                     )
@@ -139,6 +129,8 @@ class _EditProfileState extends State<EditProfile> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   controller: _editBioController
                     ..text = authNotifier.userDetails.bio,
                   onChanged: (String value) {
