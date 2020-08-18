@@ -22,7 +22,7 @@
   
 ## Mockups 😍
 <p align="center">
-<img src="AppScreensAndPoster/landing.png" height="400"/><img src="AppScreensAndPoster/login.png" height="400"hspace="50"/><img src="AppScreensAndPoster/signup.png" height="400" /><br><br>
-<img src="AppScreensAndPoster/home.png" height="400"/><img src="AppScreensAndPoster/post.png" height="400"hspace="50"/><img src="AppScreensAndPoster/profile.png" height="400" />
+<img src="AppScreensAndPoster/landing.png" height="400"/><img src="AppScreensAndPoster/login.png" height="400"/><img src="AppScreensAndPoster/signup.png" height="400" /><br><br>
+<img src="AppScreensAndPoster/home.png" height="400"/><img src="AppScreensAndPoster/post.png" height="400"/><img src="AppScreensAndPoster/profile.png" height="400" />
 </p>
   
