@@ -16,7 +16,7 @@
   
   - You can also build your own profile 😎 and you'll see others people's blogs in your feed, you can also see the detail steps to make a dish if the owner has         written it's recipe 😍.
   
-  - All the data is stored in Firebase🔥 because of real-time database you'll get the latest and yummy food blogs 🍔.
+  - All the data is stored in Firebase🔥 because of real-time database you'll get the latest and yummy food blogs 🍔. Also, app uses Provider package 😎 for state       management.
   
   - Post your amazing mouth watering dishes 🤤 with cool pictures 😍 and make sure you write detail steps of the recipe 📝 so that I and others can also try and         enjoy 🤗.
   
