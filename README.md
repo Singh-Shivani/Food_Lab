@@ -25,4 +25,13 @@
 <img src="AppScreensAndPoster/landing.png" height="400"/><img src="AppScreensAndPoster/login.png" height="400" hspace="20"/><img src="AppScreensAndPoster/signup.png" height="400" /><br><br>
 <img src="AppScreensAndPoster/home.png" height="400"/><img src="AppScreensAndPoster/post.png" height="400"hspace="20"/><img src="AppScreensAndPoster/profile.png" height="400" />
 </p>
+
+## In Action 👀
+<p align="center">
+  <a href="https://github.com/Singh-Shivani/Hamilton_Flare">
+    <img src="AppScreensAndPoster/FoodLab_App_gif.gif" alt="Logo" height="540"> 
+  </a>
+</p>
+
+
   
