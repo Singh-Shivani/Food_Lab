@@ -12,7 +12,7 @@
 
   - FoodLab is a App to post and view food blogs along with their recipes if you want 🤤!
   
-  - Login or SignUp using any account(Your credentials are safe) 🤩 and this will lead you to the feed page.
+  - Login or SignUp using any account (P.S. Your credentials are safe!) 🤩 and this will lead you to the feed page.
   
   - You can also build your own profile 😎 and you'll see others people's blogs in your feed, you can also see the detail steps to make a dish if the owner has         written it's recipe 😍.
   
