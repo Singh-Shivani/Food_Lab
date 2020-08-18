@@ -22,7 +22,7 @@
   
 ## Mockups 😍
 <p align="center">
-<img src="App Images/homePage.png" height="350"/> <img src="App Images/trendingPage.png" height="350" hspace="100"/> <img src="App Images/searchPage.png" height="350" /> <br><br>
-<img src="App Images/imageAddedToFav.png" height="350" /><img src="App Images/FavImagesPage.png" height="350" hspace="110"/> <img src="App Images/viewLicense.png" height="350" />
+<img src="AppScreensAndPoster/landing.png" height="400"/><img src="AppScreensAndPoster/login.png" height="400"hspace="50"/><img src="AppScreensAndPoster/signup.png" height="400" /><br><br>
+<img src="AppScreensAndPoster/home.png" height="400"/><img src="AppScreensAndPoster/post.png" height="400"hspace="50"/><img src="AppScreensAndPoster/profile.png" height="400" />
 </p>
   
