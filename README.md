@@ -8,7 +8,7 @@
 <i>A Food App using <a href="https://flutter.dev/">Flutter 💕</a> & <a href="https://firebase.google.com/">Firebase 🔥</a>  </i>
 <br><br>
   
-## About App 🥘
+## About the App 🥘
 
   - FoodLab is a App to post and view food blogs along with their recipes if you want 🤤!
   
