@@ -28,7 +28,7 @@
 
 ## In Action 👀
 <p align="center">
-  <a href="https://github.com/Singh-Shivani/Hamilton_Flare">
+  <a href="https://github.com/Singh-Shivani/Food_Lab">
     <img src="AppScreensAndPoster/FoodLab_App_gif.gif" alt="Logo" height="540"> 
   </a>
 </p>
