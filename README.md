@@ -20,7 +20,7 @@
   
   - And the delicious 🥳 part comes here, post your amazing mouth watering dishes 🤤 with cool pictures 😍 and make sure you write detail steps of the recipe 📝 so     that I and others can also try and enjoy 🤗.
   
-## Mockups 😍
+## Screens 😍
 <p align="center">
 <img src="AppScreensAndPoster/landing.png" height="400"/><img src="AppScreensAndPoster/login.png" height="400" hspace="20"/><img src="AppScreensAndPoster/signup.png" height="400" /><br><br>
 <img src="AppScreensAndPoster/home.png" height="400"/><img src="AppScreensAndPoster/post.png" height="400"hspace="20"/><img src="AppScreensAndPoster/profile.png" height="400" />
