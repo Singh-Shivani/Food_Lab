@@ -1,7 +1,7 @@
 # NEW UPDATE
 ## 1. For the security purpose, Access to Firebase Realtime Database has been closed. 
 
-If anyone wants to do some changes or wants to see the working, one has to do following things to build own database - 
+If anyone wants to do some changes or wants to see the working of the app, one has to do following things to build their own database - 
 
 1. Create an account on Firebase - https://firebase.google.com/
 2. Click on 'GO TO CONSOLE' on top right corner.
