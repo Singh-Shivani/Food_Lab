@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/Singh-Shivani/Hamilton_Flare">
+  <a href="https://github.com/Singh-Shivani/Food_Lab">
     <img src="AppScreensAndPoster/FoodLab_App_Poster.png" alt="Logo"> 
   </a>
 </p>
